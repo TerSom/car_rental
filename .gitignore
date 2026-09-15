@@ -50,10 +50,10 @@ package.json
 /man/
 /share/
 /src/
+
 venv*/
 .venv*/
 
 # odoo core & standard addons
 /addons/
 /odoo/
-
