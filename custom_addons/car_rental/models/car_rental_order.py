@@ -39,3 +39,9 @@ class CarRentalOrder(models.Model):
         for order in self:
             if order.date_start and order.date_end and order.date_end <= order.date_start:
                 raise ValidationError('Tanggal selesai harus setelah tanggal mulai.')
+
+    @api.constrains('vehicle_id.state')
+    def _check_available(self):
+        for order in self:
+            if order.vehicle_id.state == 'maintenance':
+                raise ValidationError('mobil sedang maintenance tidak bisa')
