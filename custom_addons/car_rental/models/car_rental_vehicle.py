@@ -1,4 +1,5 @@
 from odoo import models, fields, api
+from odoo.exceptions import ValidationError
 
 class CarRentalVehicle(models.Model):
     _name = 'car.rental.vehicle'
@@ -16,3 +17,17 @@ class CarRentalVehicle(models.Model):
         ('maintenance','Maintenance')
     ], string='Status',default='available',required=True)
     active = fields.Boolean(default=True)
+    plate_expiry_date = fields.Date(string='Plate Kadaluarsa')
+    is_available = fields.Boolean(compute='_compute_is_available' ,store=True)
+
+    @api.constrains('plate_expiry_date','state')
+    def _check_expiry_plate(self):
+        today = fields.Date.today()
+        for vehicle in self:
+            if vehicle.state == 'available' and vehicle.plate_expiry_date and vehicle.plate_expiry_date <= today:
+                raise ValidationError('plate nomer sudah kadaluarsa')
+
+    @api.depends('state')
+    def _compute_is_available(self):
+        for vehicle in self:
+            vehicle.is_available = vehicle.state == 'available'
