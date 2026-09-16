@@ -1,2 +1,10 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_car_rental_car_rental,car_rental.car_rental,model_car_rental_car_rental,base.group_user,1,1,1,1
+access_car_rental_category_user,car.rental.category.user,model_car_rental_category,group_car_rental_user,1,0,1,0
+access_car_rental_category_manager,car.rental.category.manager,model_car_rental_category,group_car_rental_manager,1,1,1,0
+access_car_rental_category_admin,car.rental.category.admin,model_car_rental_category,group_car_rental_admin,1,1,1,1
+access_car_rental_order_user,car.rental.order.user,model_car_rental_order,group_car_rental_user,1,0,0,0
+access_car_rental_order_manager,car.rental.order.manager,model_car_rental_order,group_car_rental_manager,1,1,1,0
+access_car_rental_order_admin,car.rental.order.admin,model_car_rental_order,group_car_rental_admin,1,1,1,1
+access_car_rental_vehicle_user,car.rental.vehicle.user,model_car_rental_vehicle,group_car_rental_user,1,0,0,0
+access_car_rental_vehicle_manager,car.rental.vehicle.manager,model_car_rental_vehicle,group_car_rental_manager,1,1,1,0
+access_car_rental_vehicle_admin,car.rental.vehicle.admin,model_car_rental_vehicle,group_car_rental_admin,1,1,1,1
