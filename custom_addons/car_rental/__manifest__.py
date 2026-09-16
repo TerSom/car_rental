@@ -7,6 +7,7 @@
     'author': 'Tersom',
     'depends': ['base','mail'],
     'data': [
+        'security/car_rental_security.xml',
         'security/ir.model.access.csv',
     ],
     'demo': [
