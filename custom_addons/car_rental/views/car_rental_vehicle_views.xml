@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="car_rental_vehicle_action" model="ir.actions.act_window">
+        <field name="name">Mobil</field>
+        <field name="res_model">car.rental.vehicle</field>
+        <field name="view_mode">kanban,list,form</field>
+        <field name="domain">[]</field>
+        <field name="context">{}</field>
+    </record>
+
+    <record id="car_rental_vehicle_view_list" model="ir.ui.view">
+        <field name="name">car.rental.vehicle.view.list</field>
+        <field name="model">car.rental.vehicle</field>
+        <field name="arch" type="xml">
+            <list decoration-success="state == 'available'" decoration-danger="state == 'maintenance'">
+                <field name="license_plate" />
+                <field name="brand" />
+                <field name="model_name" />
+                <field name="category_id" />
+                <field name="daily_rate" />
+                <field name="currency_id" column_invisible="True" />
+                <field name="state" />
+            </list>
+        </field>
+    </record>
+
+    <record id="car_rental_vehicle_view_form" model="ir.ui.view">
+        <field name="name">car.rental.vehicle.view.form</field>
+        <field name="model">car.rental.vehicle</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="license_plate" />
+                            <field name="brand" />
+                            <field name="model_name" />
+                        </group>
+                        <group>
+                            <field name="category_id" />
+                            <field name="currency_id" invisible="1" />
+                            <field name="daily_rate" />
+                            <field name="state" />
+                            <field name="plate_expiry_date" />
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="car_rental_vehicle_view_search" model="ir.ui.view">
+        <field name="name">car.rental.vehicle.view.search</field>
+        <field name="model">car.rental.vehicle</field>
+        <field name="arch" type="xml">
+            <search >
+                <field name="license_plate" />
+                <field name="category_id" />
+                <filter name="Available" string="Available" domain="[('state', '=', 'available')]" />
+                <filter name="Rented" string="Rented" domain="[('state', '=', 'rented')]" />
+                <group expand="0" string="Group By">
+                    <filter name="gorup_by_category" string="Kategory" context="{'group_by': 'category_id'}" />
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="car_rental_vehicle_view_kanban" model="ir.ui.view">
+        <field name="name">car.rental.vehicle.view.kanban</field>
+        <field name="model">car.rental.vehicle</field>
+        <field name="arch" type="xml">
+            <kanban>
+                <field name="license_plate" />
+                <field name="brand" />
+                <field name="model_name" />
+                <field name="daily_rate" />
+                <field name="currency_id" />
+                <field name="state" />
+                <templates>
+                    <t t-name="card">
+                        <div class="oe_kanban_card oe_kanban_global_click">
+                        <strong><field name="license_plate" /></strong>
+                        <div><field name="brand" /> <field name="model_name" /></div>
+                        <div><field name="daily_rate" /> / Hari</div>
+                        <span class="badge"><field name="state" /></span>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+</odoo>

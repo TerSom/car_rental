@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <menuitem
+        id="car_rental_menu"
+        name="Car Rental"
+        sequence="10"/>
+    
+    <menuitem
+        id="car_rental_order_menu"
+        name="Sewa Mobil"
+        action="car_rental_order_action"
+        parent="car_rental_menu"
+        sequence="10"/>
+
+    <menuitem
+        id="car_rental_vehicle_menu"
+        name="Mobil"
+        action="car_rental_vehicle_action"
+        parent="car_rental_menu"
+        sequence="20"/>
+    
+    <menuitem
+        id="car_rental_config_menu"
+        name="Konfigurasi"
+        parent="car_rental_menu"
+        sequence="90"/>
+    <menuitem
+        id="car_rental_category_menu"
+        name="Kategory Mobil"
+        action="car_rental_category_action"
+        parent="car_rental_config_menu"
+        sequence="10"/>
+</odoo>

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="car_rental_order_action" model="ir.actions.act_window">
+        <field name="name">Sewa Mobil</field>
+        <field name="res_model">car.rental.order</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[]</field>
+        <field name="context">{}</field>
+    </record>
+
+    <record id="car_rental_order_view_list" model="ir.ui.view">
+        <field name="name">car.rental.order.view.list</field>
+        <field name="model">car.rental.order</field>
+        <field name="arch" type="xml">
+            <list >
+                <field name="name" />
+                <field name="partner_id" />
+                <field name="vehicle_id" />
+                <field name="date_start" />
+                <field name="date_end" />
+                <field name="total_amount" />
+                <field name="state" />
+            </list>
+        </field>
+    </record>
+
+    <record id="car_rental_order_view_form" model="ir.ui.view">
+        <field name="name">car.rental.order.view.form</field>
+        <field name="model">car.rental.order</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name" />
+                            <field name="partner_id" />
+                            <field name="vehicle_id" />
+                        </group>
+                        <group>
+                            <field name="date_start" />
+                            <field name="date_end" />
+                            <field name="total_amount" />
+                            <field name="state" />
+                        </group>
+                    </group>
+                    <notebook>
+                        <page name="Notes" string="Notes">
+                            <field name="notes" />
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="car_rental_order_view_search" model="ir.ui.view">
+        <field name="name">car.rental.order.view.search</field>
+        <field name="model">car.rental.order</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="partner_id" />
+                <field name="vehicle_id" />
+                <filter name="Draft" string="Draft" domain="[('state', '=', 'draft')]" />
+                <filter name="Confirmed" string="Confirmed" domain="[('state', '=', 'confirmed')]" />
+                <filter name="Done" string="Done" domain="[('state', '=', 'done')]" />
+                <filter name="Cancelled" string="Cancelled" domain="[('state', '=', 'cancelled')]" />
+                <group expand="0" string="Group by">
+                    <filter name="group_by_vehicle_id" string="Mobil" context="{'group_by': 'vehicle_id'}" />
+                </group>
+            </search>
+        </field>
+    </record>
+</odoo>
