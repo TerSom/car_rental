@@ -10,7 +10,8 @@ class CarRentalVehicle(models.Model):
     brand = fields.Char(string='Merk',required=True)
     model_name = fields.Char(string='Model',required=True)
     category_id = fields.Many2one('car.rental.category', string='Kategory')
-    daily_rate = fields.Float(string='Tarif Harian')
+    currency_id = fields.Many2one('res.currency', string='Mata Uang', default=lambda self: self.env.company.currency_id)
+    daily_rate = fields.Monetary(string='Tarif Harian')
     state = fields.Selection([
         ('available','Tersedia'),
         ('rented','Disewa'),
