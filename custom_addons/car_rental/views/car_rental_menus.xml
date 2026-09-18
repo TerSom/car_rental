@@ -31,4 +31,10 @@
         action="car_rental_category_action"
         parent="car_rental_config_menu"
         sequence="10"/>
+    <menuitem
+        id="car_rental_feature_menu"
+        name="Fitur Mobil"
+        action="car_rental_feature_action"
+        parent="car_rental_config_menu"
+        sequence="10"/>
 </odoo>
