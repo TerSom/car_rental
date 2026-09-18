@@ -35,6 +35,7 @@
                             <field name="license_plate" />
                             <field name="brand" />
                             <field name="model_name" />
+                            <field name="feature_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
                         </group>
                         <group>
                             <field name="category_id" />
@@ -44,6 +45,19 @@
                             <field name="plate_expiry_date" />
                         </group>
                     </group>
+                    <notebook>
+                        <page name="Riwayat Sewa" string="Riwayat Sewa">
+                            <field name="order_ids">
+                                <list>
+                                    <field name="name" />
+                                    <field name="partner_id" />
+                                    <field name="date_start" />
+                                    <field name="date_end" />
+                                    <field name="state" />
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
                 </sheet>
             </form>
         </field>
