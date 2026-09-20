@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_car_rental_order_document_inherit_terms" name="Inherit Report" inherit_id="car_rental.reprot_car_rental_order_document">
+        <xpath expr="//div[hasclass('page')]" position="inside">
+            <div class="mt-4">
+                <h4>Syarat &amp; Ketentuan</h4>
+                <ol>
+                    <li>Penyewa wajib mengembalikan mobil dalam kondisi baik.</li>
+                    <li>Keterlambatan pengembalian dikenakan denda per hari.</li>
+                    <li>Kerusakan di luar pemakaian wajar menjadi tanggung jawab penyewa.</li>
+                </ol>
+            </div>
+        </xpath>
+    </template>
+</odoo>

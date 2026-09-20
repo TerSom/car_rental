@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="reprot_car_rental_order_document" name="Kwitansi Sewa Mobil">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="web.external_layout">
+                    <div class="page" style="page-break-after: always; font-size: 13px;">
+
+                        <!-- Header Title & Status -->
+                        <div class="d-flex justify-content-between align-items-center border-bottom pb-2 mb-3">
+                            <div>
+                                <h3 class="fw-bold mb-0 text-primary">KWITANSI SEWA MOBIL</h3>
+                                <span class="text-muted">No: </span>
+                                <strong t-field="doc.name"/>
+                            </div>
+                            <div class="text-end">
+                                <span t-if="doc.state == 'draft'" class="badge bg-secondary px-2 py-1">Draft</span>
+                                <span t-if="doc.state == 'confirmed'" class="badge bg-info text-white px-2 py-1">Dikonfirmasi</span>
+                                <span t-if="doc.state == 'done'" class="badge bg-success px-2 py-1">Selesai</span>
+                                <span t-if="doc.state == 'cancelled'" class="badge bg-danger px-2 py-1">Batal</span>
+                            </div>
+                        </div>
+
+                        <!-- Customer & Vehicle Info Cards -->
+                        <div class="row mb-3 g-2">
+                            <!-- Data Penyewa -->
+                            <div class="col-6">
+                                <div class="card h-100 border p-2">
+                                    <h6 class="fw-bold border-bottom pb-1 mb-2 text-secondary">Data Penyewa</h6>
+                                    <table class="table table-sm table-borderless mb-0">
+                                        <tr>
+                                            <td class="text-muted p-0" style="width: 35%;">Nama</td>
+                                            <td class="p-0">: <strong t-field="doc.partner_id.name"/></td>
+                                        </tr>
+                                        <tr t-if="doc.partner_id.driver_license_number">
+                                            <td class="text-muted p-0">No. SIM</td>
+                                            <td class="p-0">: <span t-field="doc.partner_id.driver_license_number"/></td>
+                                        </tr>
+                                        <tr t-if="doc.partner_id.phone or doc.partner_id.mobile">
+                                            <td class="text-muted p-0">Telepon</td>
+                                            <td class="p-0">: <span t-out="doc.partner_id.phone or doc.partner_id.mobile"/></td>
+                                        </tr>
+                                        <tr t-if="doc.partner_id.email">
+                                            <td class="text-muted p-0">Email</td>
+                                            <td class="p-0">: <span t-field="doc.partner_id.email"/></td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <!-- Data Kendaraan -->
+                            <div class="col-6">
+                                <div class="card h-100 border p-2">
+                                    <h6 class="fw-bold border-bottom pb-1 mb-2 text-secondary">Data Kendaraan</h6>
+                                    <table class="table table-sm table-borderless mb-0">
+                                        <tr>
+                                            <td class="text-muted p-0" style="width: 35%;">Plat Nomor</td>
+                                            <td class="p-0">: <strong t-field="doc.vehicle_id.license_plate"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-muted p-0">Unit</td>
+                                            <td class="p-0">: <span t-field="doc.vehicle_id.brand"/> <span t-field="doc.vehicle_id.model_name"/></td>
+                                        </tr>
+                                        <tr t-if="doc.vehicle_id.category_id">
+                                            <td class="text-muted p-0">Kategori</td>
+                                            <td class="p-0">: <span t-field="doc.vehicle_id.category_id.name"/></td>
+                                        </tr>
+                                        <tr t-if="doc.vehicle_id.milage">
+                                            <td class="text-muted p-0">Kilometer</td>
+                                            <td class="p-0">: <span t-field="doc.vehicle_id.milage"/> km</td>
+                                        </tr>
+                                    </table>
+                                    <!-- Fitur Mobil tags -->
+                                    <div t-if="doc.vehicle_id.feature_ids" class="mt-2 pt-1 border-top">
+                                        <small class="text-muted d-block mb-1">Fitur:</small>
+                                        <t t-foreach="doc.vehicle_id.feature_ids" t-as="feat">
+                                            <span class="badge bg-light text-dark border me-1" t-field="feat.name"/>
+                                        </t>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Rental Details Table -->
+                        <table class="table table-sm table-bordered mb-3">
+                            <thead class="table-light">
+                                <tr class="text-center">
+                                    <th>Tanggal Mulai</th>
+                                    <th>Tanggal Selesai</th>
+                                    <th>Durasi</th>
+                                    <th class="text-end">Tarif / Hari</th>
+                                    <th class="text-end">Total Biaya</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="text-center align-middle">
+                                    <td><span t-field="doc.date_start"/></td>
+                                    <td><span t-field="doc.date_end"/></td>
+                                    <td><span t-field="doc.total_days"/> Hari</td>
+                                    <td class="text-end"><span t-field="doc.vehicle_id.daily_rate"/></td>
+                                    <td class="text-end fw-bold"><span t-field="doc.total_amount"/></td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <!-- Total Summary Box -->
+                        <div class="row justify-content-end mb-3">
+                            <div class="col-6">
+                                <table class="table table-sm table-borderless border">
+                                    <tr class="border-top bg-light">
+                                        <td class="fw-bold p-2">Total Pembayaran</td>
+                                        <td class="text-end fw-bold p-2 text-primary fs-6">
+                                            <span t-field="doc.total_amount"/>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- Catatan jika ada -->
+                        <div t-if="doc.notes" class="mb-3 p-2 bg-light border rounded">
+                            <strong class="text-muted d-block">Catatan:</strong>
+                            <span t-field="doc.notes"/>
+                        </div>
+
+                        <!-- Signature Section -->
+                        <div class="row text-center mt-4 pt-2">
+                            <div class="col-6">
+                                <p class="mb-5 text-muted">Penyewa</p>
+                                <p class="fw-bold border-top d-inline-block px-4 pt-1 mb-0">
+                                    <span t-field="doc.partner_id.name"/>
+                                </p>
+                            </div>
+                            <div class="col-6">
+                                <p class="mb-5 text-muted">Petugas Rental</p>
+                                <p class="fw-bold border-top d-inline-block px-4 pt-1 mb-0">
+                                    ( ..................................... )
+                                </p>
+                            </div>
+                        </div>
+
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+</odoo>
