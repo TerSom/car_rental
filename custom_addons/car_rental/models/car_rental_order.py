@@ -46,3 +46,18 @@ class CarRentalOrder(models.Model):
         for order in self:
             if order.vehicle_id.state == 'maintenance':
                 raise ValidationError('mobil sedang maintenance tidak bisa')
+
+    def action_open_return_wizard(self):
+        self.ensure_one()
+        return{
+            'name': 'Pengembalian Mobil',
+            'type': 'ir.actions.act_window',
+            'res_model': 'car.rental.return.wizard',
+            'view_mode': 'form',
+            'target': 'new',
+            'context': {
+                'default_order_id': self.id,
+                'default_vehicle_id': self.vehicle_id.id,
+                }
+            
+        }

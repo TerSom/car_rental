@@ -22,6 +22,7 @@ class CarRentalVehicle(models.Model):
     is_available = fields.Boolean(compute='_compute_is_available' ,store=True)
     order_ids = fields.One2many('car.rental.order','vehicle_id', string='Riwayat Sewa')
     feature_ids = fields.Many2many('car.rental.feature', string='Fitur Mobil')
+    milage = fields.Integer(string='Vehicle Mileage',required=True)
 
     @api.constrains('plate_expiry_date','state')
     def _check_expiry_plate(self):

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="car_rental_return_wizard_view_form" model="ir.ui.view">
+        <field name="name">car.rental.return.wizard.view.form</field>
+        <field name="model">car.rental.return.wizard</field>
+        <field name="arch" type="xml">
+            <form string="">
+                <sheet>
+                    <group>
+                        <field name="order_id" invisible="1" />
+                        <field name="actual_return_date" />
+                        <field name="milage_return" />
+                        <field name="condition_notes" />
+                    </group>
+                    <footer>
+                        <button name="action_confirm_return" type="object" string="Konfimasi" class="btn-primary"/>
+                        <button special="cancel" string="Batal" class="btn-primary"/>
+                    </footer>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+</odoo>
