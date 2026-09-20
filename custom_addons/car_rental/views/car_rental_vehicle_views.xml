@@ -42,6 +42,7 @@
                             <field name="currency_id" invisible="1" />
                             <field name="daily_rate" />
                             <field name="state" />
+                            <field name="milage" />
                             <field name="plate_expiry_date" />
                         </group>
                     </group>

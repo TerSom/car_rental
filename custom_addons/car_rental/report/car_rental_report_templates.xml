@@ -17,7 +17,7 @@
                             <div class="text-end">
                                 <span t-if="doc.state == 'draft'" class="badge bg-secondary px-2 py-1">Draft</span>
                                 <span t-if="doc.state == 'confirmed'" class="badge bg-info text-white px-2 py-1">Dikonfirmasi</span>
-                                <span t-if="doc.state == 'done'" class="badge bg-success px-2 py-1">Selesai</span>
+                                <span t-if="doc.state == 'done'" class="badge px-2 py-1">Selesai</span>
                                 <span t-if="doc.state == 'cancelled'" class="badge bg-danger px-2 py-1">Batal</span>
                             </div>
                         </div>
@@ -75,7 +75,7 @@
                                     <div t-if="doc.vehicle_id.feature_ids" class="mt-2 pt-1 border-top">
                                         <small class="text-muted d-block mb-1">Fitur:</small>
                                         <t t-foreach="doc.vehicle_id.feature_ids" t-as="feat">
-                                            <span class="badge bg-light text-dark border me-1" t-field="feat.name"/>
+                                            <span class="badge text-dark " t-field="feat.name"/>,
                                         </t>
                                     </div>
                                 </div>

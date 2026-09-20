@@ -30,6 +30,7 @@
         <field name="arch" type="xml">
             <form>
                 <sheet>
+                    <button name="action_open_return_wizard" string="Kembalikan Mobil" type="object" class="btn-primary"/>
                     <group>
                         <group>
                             <field name="name" />

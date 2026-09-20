@@ -14,6 +14,7 @@
         'views/car_rental_vehicle_views.xml',
         'views/car_rental_order_views.xml',
         'views/res_partner_views.xml',
+        'wizard/car_rental_return_wizard.xml',
         'report/report_paperformat.xml',
         'report/car_rental_report_templates.xml',
         'report/car_rental_report.xml',
