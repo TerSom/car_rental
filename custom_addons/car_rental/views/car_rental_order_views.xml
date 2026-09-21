@@ -29,8 +29,13 @@
         <field name="model">car.rental.order</field>
         <field name="arch" type="xml">
             <form>
+                <header>
+                    <button name="action_confirm" string="Konfirmasi Mobil" type="object" class="btn-primary" invisible="state != 'draft'"/>
+                    <button name="action_cancel" string="Cancel Mobil" type="object" class="btn-primary" invisible="state != 'confirmed'"/>
+                    <button name="action_open_return_wizard" string="Kembalikan Mobil" type="object" class="btn-primary" invisible="state != 'confirmed'"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,confirmed,done"/>
+                </header>
                 <sheet>
-                    <button name="action_open_return_wizard" string="Kembalikan Mobil" type="object" class="btn-primary"/>
                     <group>
                         <group>
                             <field name="name" />
@@ -41,7 +46,6 @@
                             <field name="date_start" />
                             <field name="date_end" />
                             <field name="total_amount" />
-                            <field name="state" />
                         </group>
                     </group>
                     <notebook>
@@ -50,6 +54,7 @@
                         </page>
                     </notebook>
                 </sheet>
+                <chatter/>
             </form>
         </field>
     </record>

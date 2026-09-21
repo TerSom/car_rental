@@ -19,6 +19,7 @@
         'report/car_rental_report_templates.xml',
         'report/car_rental_report.xml',
         'report/car_rental_report_terms.xml',
+        'data/car_rental_sequence.xml',
         'views/car_rental_menus.xml',
     ],
     'demo': [
