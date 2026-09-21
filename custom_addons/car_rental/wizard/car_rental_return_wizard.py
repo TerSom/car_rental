@@ -8,7 +8,7 @@ class CarRentalReturnWizard(models.TransientModel):
     order_id = fields.Many2one('car.rental.order', string='Order' ,required=True)
     vehicle_id = fields.Many2one('car.rental.vehicle', string='Mobil')
     actual_return_date = fields.Date(string='Tanggal Kembali Aktual', default=fields.Date.today(),required=True)
-    milage_return = fields.Integer(string='Kilometer Saat ini',required=True)
+    milage_return = fields.Integer(string='Kilometer Saat ini', required=True)
     condition_notes = fields.Text(string='Catatan Kondisi Mobil')
 
     def action_confirm_return(self):
@@ -22,3 +22,4 @@ class CarRentalReturnWizard(models.TransientModel):
             wizard.order_id.state = 'done'
             wizard.order_id.vehicle_id.state = 'available'
             wizard.vehicle_id.milage = wizard.milage_return
+            wizard.order_id.message_post(body='Mobil sudah di kembalikan')
