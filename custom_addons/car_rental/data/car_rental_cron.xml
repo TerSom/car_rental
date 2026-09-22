@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="car_rental_cron" model="ir.cron">
+        <field name="name">Cron Cek Sewa Telat</field>
+        <field name="model_id" ref="car_rental.model_car_rental_order"/>
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+        <field name="state">code</field>
+        <field name="code">model.cron_check_overdue_order()</field>
+        <field name="active" eval="True"/>
+    </record>
+
+</odoo>

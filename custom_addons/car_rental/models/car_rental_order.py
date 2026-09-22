@@ -21,6 +21,7 @@ class CarRentalOrder(models.Model):
         ('cancelled', 'Batal')
     ], required=True, string='Status', default='draft', tracking=True)
     notes = fields.Text(string='Catatan')
+    reminder_count = fields.Integer(string='Jumlah Pengingat', default=0, copy=False)
 
     @api.depends('date_start','date_end')
     def _compute_total_days(self):
@@ -89,4 +90,25 @@ class CarRentalOrder(models.Model):
             order.vehicle_id.state = 'rented'
 
         return orders
+    
+    @api.model
+    def cron_check_overdue_order(self):
+        today = fields.Date.today()
+        overdue_orders = self.search([
+            ('state', '=', 'confirmed'),
+            ('date_end', '<', today),
+            ('reminder_count', '<', 3),
+        ])
+        for order in overdue_orders:
+            order.reminder_count += 1
+            day_late = (today - order.date_end).days
+
+            if order.reminder_count == 1:
+                body = f"Order {order.name} telah lewat jatuh tempo ({day_late} hari). Harap segera kembalikan mobil."
+            elif order.reminder_count == 2:
+                body = f"Order {order.name} terlambat {day_late} hari. Denda mulai berjalan, segera kembalikan unit mobil."
+            elif order.reminder_count == 3:
+                body = f"Order {order.name} terlambat {day_late} hari! Mobil belum dikembalikan. Pihak rental akan mengambil tindakan tegas."
+
+            order.message_post(body=body)
 
