@@ -17,7 +17,7 @@ class CarRentalOrder(models.Model):
     state = fields.Selection([
         ('draft', 'Draft'),
         ('confirmed', 'Dikonfirmasi'),
-        ('done', 'selesai'),
+        ('done', 'Selesai'),
         ('cancelled', 'Batal')
     ], required=True, string='Status', default='draft', tracking=True)
     notes = fields.Text(string='Catatan')

@@ -19,7 +19,7 @@
                 <field name="date_start" />
                 <field name="date_end" />
                 <field name="total_amount" />
-                <field name="state" />
+                <field name="state" widget="vehicle_status_badge"/>
             </list>
         </field>
     </record>

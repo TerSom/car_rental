@@ -27,6 +27,13 @@
     'demo': [
         'demo/demo.xml',
     ],
+    'assets': {
+    'web.assets_backend': [
+        'car_rental/static/src/js/vehicle_status_badge.js',
+        'car_rental/static/src/xml/vehicle_status_badge.xml',
+        'car_rental/static/src/scss/vehicle_status_badge.scss',
+        ],
+    },
     'installable': True,
     'application': True,
     'license': 'LGPL-3',
