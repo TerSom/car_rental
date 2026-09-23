@@ -1,0 +1,27 @@
+.badge_status {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px 12px;
+    min-width: 80px;
+    border: none;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 1;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+}
+/* Vehicle states */
+.badge_status_available { background-color: #ecfdf5; color: #065f46;}
+.badge_status_rented { background-color: #fef3c7; color:#92400e}
+.badge_status_maintenance { background-color: #fee2e2; color: #991b1b;}
+
+/* Order states */
+.badge_status_draft { background-color: #f3f4f6; color: #374151;}
+.badge_status_confirmed { background-color: #dbeafe; color: #1e40af;}
+.badge_status_done { background-color: #ecfdf5; color: #065f46;}
+.badge_status_cancelled { background-color: #fee2e2; color: #991b1b;}
+
+.badge{
+    margin-left: -10px;
+}

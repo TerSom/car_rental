@@ -20,11 +20,20 @@
         'report/car_rental_report.xml',
         'report/car_rental_report_terms.xml',
         'data/car_rental_sequence.xml',
+        'data/car_rental_cron.xml',
+        'wizard/car_rental_export_wizard.xml',
         'views/car_rental_menus.xml',
     ],
     'demo': [
         'demo/demo.xml',
     ],
+    'assets': {
+    'web.assets_backend': [
+        'car_rental/static/src/js/vehicle_status_badge.js',
+        'car_rental/static/src/xml/vehicle_status_badge.xml',
+        'car_rental/static/src/scss/vehicle_status_badge.scss',
+        ],
+    },
     'installable': True,
     'application': True,
     'license': 'LGPL-3',

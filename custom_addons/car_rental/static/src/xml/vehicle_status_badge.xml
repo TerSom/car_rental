@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="car_rental.VehicleStatusBadge">
+        <span t-attf-class="badge_status badge_status_#{props.record.data[props.name]}">
+            <t t-esc="label"/>
+        </span>
+    </t>
+</templates>
+

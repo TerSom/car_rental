@@ -14,3 +14,6 @@ access_car_rental_feature_admin,car.rental.feature.admin,model_car_rental_featur
 access_car_rental_return_wizard_user,car.rental.return.wizard.user,model_car_rental_return_wizard,group_car_rental_user,1,1,1,1
 access_car_rental_return_wizard_manager,car.rental.return.wizard.manager,model_car_rental_return_wizard,group_car_rental_manager,1,1,1,1
 access_car_rental_return_wizard_admin,car.rental.return.wizard.admin,model_car_rental_return_wizard,group_car_rental_admin,1,1,1,1
+access_car_rental_export_wizard_user,car.rental.export.wizard.user,model_car_rental_export_wizard,group_car_rental_user,1,1,1,1
+access_car_rental_export_wizard_manager,car.rental.export.wizard.manager,model_car_rental_export_wizard,group_car_rental_manager,1,1,1,1
+access_car_rental_export_wizard_admin,car.rental.export.wizard.admin,model_car_rental_export_wizard,group_car_rental_admin,1,1,1,1

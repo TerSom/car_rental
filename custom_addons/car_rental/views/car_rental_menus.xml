@@ -24,7 +24,7 @@
         id="car_rental_config_menu"
         name="Konfigurasi"
         parent="car_rental_menu"
-        sequence="90"/>
+        sequence="80"/>
     <menuitem
         id="car_rental_category_menu"
         name="Kategory Mobil"
@@ -36,5 +36,16 @@
         name="Fitur Mobil"
         action="car_rental_feature_action"
         parent="car_rental_config_menu"
+        sequence="10"/>
+    <menuitem
+        id="Report_menu"
+        name="Report"
+        parent="car_rental_menu"
+        sequence="90"/>
+    <menuitem
+        id="car_rental_export_menu"
+        name="Export Excel"
+        action="action_export_orders_wizard"
+        parent="Report_menu"
         sequence="10"/>
 </odoo>

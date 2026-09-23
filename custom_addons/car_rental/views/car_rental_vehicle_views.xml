@@ -19,7 +19,7 @@
                 <field name="category_id" />
                 <field name="daily_rate" />
                 <field name="currency_id" column_invisible="True" />
-                <field name="state" />
+                <field name="state" widget="vehicle_status_badge"/>
             </list>
         </field>
     </record>
@@ -41,7 +41,7 @@
                             <field name="category_id" />
                             <field name="currency_id" invisible="1" />
                             <field name="daily_rate" />
-                            <field name="state" />
+                            <field name="state" widget="vehicle_status_badge"/>
                             <field name="milage" />
                             <field name="plate_expiry_date" />
                         </group>
@@ -54,7 +54,7 @@
                                     <field name="partner_id" />
                                     <field name="date_start" />
                                     <field name="date_end" />
-                                    <field name="state" />
+                                    <field name="state" widget="vehicle_status_badge" />
                                 </list>
                             </field>
                         </page>
@@ -94,10 +94,18 @@
                 <templates>
                     <t t-name="card">
                         <div class="oe_kanban_card oe_kanban_global_click">
-                        <strong><field name="license_plate" /></strong>
-                        <div><field name="brand" /> <field name="model_name" /></div>
-                        <div><field name="daily_rate" /> / Hari</div>
-                        <span class="badge"><field name="state" /></span>
+                            <strong>
+                                <field name="license_plate" />
+                            </strong>
+                            <div>
+                                <field name="brand" />
+                                <field name="model_name" />
+                            </div>
+                            <div>
+                                <field name="daily_rate" />/ Hari</div>
+                            <span class="badge">
+                                <field name="state" widget="vehicle_status_badge"/>
+                            </span>
                         </div>
                     </t>
                 </templates>

@@ -19,7 +19,7 @@
                 <field name="date_start" />
                 <field name="date_end" />
                 <field name="total_amount" />
-                <field name="state" />
+                <field name="state" widget="vehicle_status_badge"/>
             </list>
         </field>
     </record>
@@ -70,6 +70,7 @@
                 <filter name="Confirmed" string="Confirmed" domain="[('state', '=', 'confirmed')]" />
                 <filter name="Done" string="Done" domain="[('state', '=', 'done')]" />
                 <filter name="Cancelled" string="Cancelled" domain="[('state', '=', 'cancelled')]" />
+                <filter name="Overdue" string="Overdue" domain="[('date_end', '&lt;', context_today()),('state','=','confirmed')]"/>
                 <group expand="0" string="Group by">
                     <filter name="group_by_vehicle_id" string="Mobil" context="{'group_by': 'vehicle_id'}" />
                 </group>
