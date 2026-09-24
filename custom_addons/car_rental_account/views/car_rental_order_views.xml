@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="car_rental_order_inherit_account_view_form" model="ir.ui.view">
+        <field name="name">car.rental.order.view.form</field>
+        <field name="model">car.rental.order</field>
+        <field name="inherit_id" ref="car_rental.car_rental_order_view_form"></field>
+        <field name="arch" type="xml">
+            <xpath expr="//header/field[@name='state']" position="before">
+                <button string="Create Invoice" name="action_create_invoice" type="object" class="btn-primary" invisible="state != 'done' or invoice_count > 0"/>
+            </xpath>
+                
+            <xpath expr="//sheet/group" position="before">
+                <div class="oe_button_box" name="button_box">
+                    <button name="aciton_view_invoices" type="object" class="oe_stat_button" icon="fa-money" invisible="invoice_count == 0">
+                        <field name="invoice_count" string="Invoice" widget="statinfo"/>
+                    </button>
+                </div>
+                <field name="payment_state" invisible="1"/>
+                <widget name="web_ribbon" title="Paid" invisible="payment_state != 'paid'"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>
