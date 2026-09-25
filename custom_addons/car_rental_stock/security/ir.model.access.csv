@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_car_rental_order_line_user,car.rental.order.line.user,model_car_rental_order_line,car_rental.group_car_rental_user,1,1,1,1
+access_car_rental_order_line_manager,car.rental.order.line.manager,model_car_rental_order_line,car_rental.group_car_rental_manager,1,1,1,1
+access_car_rental_order_line_admin,car.rental.order.line.admin,model_car_rental_order_line,car_rental.group_car_rental_admin,1,1,1,1

@@ -36,6 +36,9 @@
                     <field name="state" widget="statusbar" statusbar_visible="draft,confirmed,done"/>
                 </header>
                 <sheet>
+                    <div class="oe_button_box" name="button_box">
+                    
+                    </div>
                     <group>
                         <group>
                             <field name="name" />
