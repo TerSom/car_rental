@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="car_rental_order_inherit_stock_view_form" model="ir.ui.view">
+        <field name="name">car.rental.order.view.form.inherit.stock</field>
+        <field name="model">car.rental.order</field>
+        <field name="inherit_id" ref="car_rental.car_rental_order_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header" position="inside">
+                <field name="has_outgoing_picking" invisible="1"/>
+                <field name="has_incoming_picking" invisible="1"/>
+                <button name="action_create_outgoing_picking" string="Keluarkan Aksesoris" type="object" class="btn-secondary" invisible="state not in ('confirmed', 'done') or not addon_line_ids or has_outgoing_picking"/>
+                <button name="action_create_incoming_picking" string="Kembalikan Aksesoris" type="object" class="btn-secondary" invisible="state != 'done' or not addon_line_ids or not has_outgoing_picking or has_incoming_picking"/>
+            </xpath>
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button name="action_view_pickings" type="object" class="oe_stat_button" icon="fa-truck" invisible="picking_count == 0">
+                    <field name="picking_count" string="Transfers" widget="statinfo"/>
+                </button>
+            </xpath>
+            <xpath expr="//notebook" position="inside">
+                <page name="addons" string="Aksesoris">
+                    <field name="addon_line_ids" readonly="state in ['cancelled', 'done']">
+                        <list editable="bottom">
+                            <field name="product_id" domain="[('is_storable', '=', True)]"/>
+                            <field name="qty"/>
+                            <field name="product_uom_id"/>
+                        </list>
+                    </field>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>
