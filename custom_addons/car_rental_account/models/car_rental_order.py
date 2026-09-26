@@ -4,11 +4,11 @@ from odoo.exceptions import UserError
 class CarRentalOrder(models.Model):
     _inherit = 'car.rental.order'
 
-    invoice_ids = fields.One2many('account.move', 'car_rental_order_id', string='Invoice')
+    invoice_ids = fields.One2many('account.move', 'car_rental_order_id', string='Invoices')
     invoice_count = fields.Integer(compute='_compute_invoice_count')
     payment_state = fields.Selection(
         related='invoice_ids.payment_state',
-        string='Status Pembayaran',
+        string='Payment Status',
     )
 
     @api.depends('invoice_ids')
@@ -19,14 +19,14 @@ class CarRentalOrder(models.Model):
     def action_create_invoice(self):
         self.ensure_one()
         if self.invoice_ids:
-            raise UserError('Order ini sudah punya invoice')
+            raise UserError('This order already has an invoice.')
         invoice_vals = {
             'move_type':'out_invoice',
             'partner_id': self.partner_id.id,
             'car_rental_order_id': self.id,
             'invoice_line_ids': [
                 Command.create({
-                    'name': f'Sewa Moil {self.vehicle_id.license_plate} ({self.date_start}) - ({self.date_end})',
+                    'name': f'Car Rental {self.vehicle_id.license_plate} ({self.date_start}) - ({self.date_end})',
                     'quantity': 1,
                     'price_unit': self.total_amount
                 })],

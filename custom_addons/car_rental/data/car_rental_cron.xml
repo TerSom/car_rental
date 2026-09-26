@@ -2,7 +2,7 @@
 <odoo>
 
     <record id="car_rental_cron" model="ir.cron">
-        <field name="name">Cron Cek Sewa Telat</field>
+        <field name="name">Check Overdue Rental Orders</field>
         <field name="model_id" ref="car_rental.model_car_rental_order"/>
         <field name="interval_number">1</field>
         <field name="interval_type">days</field>

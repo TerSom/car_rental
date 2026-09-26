@@ -10,11 +10,11 @@ class CarRentalOrderLine(models.Model):
     )
     product_id = fields.Many2one(
         'product.product',
-        string='Aksesoris',
+        string='Accessory',
         required=True,
         domain=[('is_storable', '=', True)],
     )
-    qty = fields.Float(string='Jumlah', default=1.0, required=True)
+    qty = fields.Float(string='Quantity', default=1.0, required=True)
     product_uom_id = fields.Many2one(
-        related='product_id.uom_id', string='Satuan', readonly=True
+        related='product_id.uom_id', string='Unit of Measure', readonly=True
     )

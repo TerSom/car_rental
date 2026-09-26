@@ -2,7 +2,7 @@
 <odoo>
 
     <record id="car_rental_feature_action" model="ir.actions.act_window">
-        <field name="name">Fitur Mobil</field>
+        <field name="name">Vehicle Features</field>
         <field name="res_model">car.rental.feature</field>
         <field name="view_mode">list,form</field>
         <field name="domain">[]</field>

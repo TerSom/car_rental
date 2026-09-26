@@ -5,11 +5,12 @@ from odoo.exceptions import UserError
 class CarRentalOrder(models.Model):
     _inherit = 'car.rental.order'
 
-    addon_line_ids = fields.One2many('car.rental.order.line', 'order_id', string='Aksesoris')
+    addon_line_ids = fields.One2many('car.rental.order.line', 'order_id', string='Accessories')
     picking_ids = fields.One2many('stock.picking', 'car_rental_order_id', string='Transfers')
-    picking_count = fields.Integer(string='Jumlah Transfer', compute='_compute_picking_count')
-    has_outgoing_picking = fields.Boolean(string='Aksesoris Terkirim', compute='_compute_picking_status')
-    has_incoming_picking = fields.Boolean(string='Aksesoris Kembali', compute='_compute_picking_status')
+    picking_count = fields.Integer(string='Transfers', compute='_compute_picking_count')
+    has_outgoing_picking = fields.Boolean(string='Accessories Delivered', compute='_compute_picking_status')
+    has_incoming_picking = fields.Boolean(string='Accessories Returned', compute='_compute_picking_status')
+    is_outgoing_done = fields.Boolean(string='Outgoing Transfer Validated', compute='_compute_picking_status')
 
     @api.depends('picking_ids')
     def _compute_picking_count(self):
@@ -26,6 +27,9 @@ class CarRentalOrder(models.Model):
             order.has_incoming_picking = any(
                 p.picking_type_code == 'incoming' for p in active
             )
+            order.is_outgoing_done = any(
+                p.picking_type_code == 'outgoing' and p.state == 'done' for p in active
+            )
 
     def _get_warehouse(self):
         self.ensure_one()
@@ -36,14 +40,14 @@ class CarRentalOrder(models.Model):
     def action_create_outgoing_picking(self):
         self.ensure_one()
         if not self.addon_line_ids:
-            raise UserError('Tidak ada aksesoris pada order ini.')
+            raise UserError('No accessories found for this order.')
         if self.has_outgoing_picking:
-            raise UserError('Aksesoris untuk order ini sudah dikeluarkan.')
+            raise UserError('Accessories for this order have already been delivered.')
 
         warehouse = self._get_warehouse()
         picking_type = warehouse.out_type_id
         if not picking_type:
-            raise UserError('Tipe operasi Delivery Order tidak ditemukan.')
+            raise UserError('Delivery order operation type not found.')
 
         customer_location = (
             self.partner_id.property_stock_customer
@@ -79,16 +83,16 @@ class CarRentalOrder(models.Model):
     def action_create_incoming_picking(self):
         self.ensure_one()
         if not self.addon_line_ids:
-            raise UserError('Tidak ada aksesoris pada order ini.')
+            raise UserError('No accessories found for this order.')
         if not self.has_outgoing_picking:
-            raise UserError('Aksesoris belum pernah dikeluarkan.')
+            raise UserError('Accessories have not been delivered yet.')
         if self.has_incoming_picking:
-            raise UserError('Aksesoris untuk order ini sudah dikembalikan.')
+            raise UserError('Accessories for this order have already been returned.')
 
         warehouse = self._get_warehouse()
         picking_type = warehouse.in_type_id
         if not picking_type:
-            raise UserError('Tipe operasi Receipts tidak ditemukan.')
+            raise UserError('Receipts operation type not found.')
 
         customer_location = (
             self.partner_id.property_stock_customer
