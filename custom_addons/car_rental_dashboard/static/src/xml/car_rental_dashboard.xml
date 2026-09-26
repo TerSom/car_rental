@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="car_rental_dashboard.Dashboard">
+        <main class="o_car_rental_dashboard" aria-label="Car Rental Dashboard">
+            <t t-if="state.loading">
+                <div class="o_crd_skeleton_wrap">
+                    <div class="o_crd_skeleton o_crd_sk_header"/>
+                    <div class="o_crd_sk_kpis">
+                        <div class="o_crd_skeleton o_crd_sk_kpi"/>
+                        <div class="o_crd_skeleton o_crd_sk_kpi"/>
+                        <div class="o_crd_skeleton o_crd_sk_kpi"/>
+                        <div class="o_crd_skeleton o_crd_sk_kpi"/>
+                    </div>
+                    <div class="o_crd_sk_grid">
+                        <div class="o_crd_skeleton o_crd_sk_panel_big"/>
+                        <div class="o_crd_skeleton o_crd_sk_panel"/>
+                        <div class="o_crd_skeleton o_crd_sk_panel"/>
+                    </div>
+                </div>
+            </t>
+            <t t-elif="state.data">
+                <header class="o_crd_header">
+                    <div>
+                        <p class="o_crd_eyebrow">CAR RENTAL OPERATIONS</p>
+                        <h1>Dashboard</h1>
+                        <p class="o_crd_subtitle">Week overview · <t t-esc="state.data.week_label"/></p>
+                    </div>
+                    <div class="o_crd_actions">
+                        <button class="btn o_crd_button o_crd_button_ghost" t-on-click="refresh">
+                            <i class="fa fa-refresh" t-att-class="{'fa-spin': state.refreshing}"/> Refresh
+                        </button>
+                        <button class="btn o_crd_button o_crd_button_ghost" t-on-click="exportOrders">
+                            <i class="fa fa-file-excel-o"/> Export
+                        </button>
+                        <button class="btn o_crd_button o_crd_button_primary" t-on-click="createRental">
+                            <i class="fa fa-plus"/> New Rental
+                        </button>
+                    </div>
+                </header>
+
+                <section class="o_crd_kpis" aria-label="Key performance indicators">
+                    <button class="o_crd_kpi o_crd_kpi_emerald" t-on-click="() => this.openModel('car.rental.vehicle')">
+                        <span class="o_crd_kpi_icon"><i class="fa fa-car"/></span>
+                        <span class="o_crd_kpi_label">Total Vehicles</span>
+                        <strong t-esc="state.data.kpis.vehicles"/>
+                        <small><t t-esc="state.data.fleet.rented"/> currently rented</small>
+                    </button>
+                    <button class="o_crd_kpi o_crd_kpi_mint" t-on-click="() => this.openModel('car.rental.order', [['state', '=', 'confirmed']])">
+                        <span class="o_crd_kpi_icon"><i class="fa fa-key"/></span>
+                        <span class="o_crd_kpi_label">Active Rentals</span>
+                        <strong t-esc="state.data.kpis.active_rentals"/>
+                        <small><t t-esc="state.data.kpis.completed_orders"/> completed this month</small>
+                    </button>
+                    <button class="o_crd_kpi o_crd_kpi_light" t-on-click="() => this.openModel('car.rental.vehicle', [['state', '=', 'available']])">
+                        <span class="o_crd_kpi_icon"><i class="fa fa-check-circle"/></span>
+                        <span class="o_crd_kpi_label">Available Now</span>
+                        <strong t-esc="state.data.kpis.available_vehicles"/>
+                        <small>Ready for next booking</small>
+                    </button>
+                    <button class="o_crd_kpi o_crd_kpi_warning" t-on-click="() => this.openModel('car.rental.order', [['state', '=', 'confirmed'], ['date_end', '&lt;', state.data.today]])">
+                        <span class="o_crd_kpi_icon"><i class="fa fa-clock-o"/></span>
+                        <span class="o_crd_kpi_label">Overdue Rentals</span>
+                        <strong t-esc="state.data.kpis.overdue_orders"/>
+                        <small>Need follow-up today</small>
+                    </button>
+                </section>
+
+                <section class="o_crd_grid">
+                    <article class="o_crd_panel o_crd_revenue">
+                        <div class="o_crd_panel_heading">
+                            <div>
+                                <h2>Weekly Rental Revenue</h2>
+                                <p>Confirmed and completed rentals</p>
+                            </div>
+                            <strong t-esc="formatCurrency(state.data.kpis.week_revenue)"/>
+                        </div>
+                        <div class="o_crd_chart" aria-label="Weekly rental revenue chart">
+                            <t t-foreach="state.data.revenue" t-as="item" t-key="item.label">
+                                <div class="o_crd_bar_group">
+                                    <div class="o_crd_bar_value" t-esc="formatCurrency(item.amount)"/>
+                                    <div class="o_crd_bar_track">
+                                        <div class="o_crd_bar" t-att-style="'height: ' + item.height + '%'"/>
+                                    </div>
+                                    <span t-esc="item.label"/>
+                                </div>
+                            </t>
+                        </div>
+                    </article>
+
+                    <article class="o_crd_panel o_crd_fleet">
+                        <div class="o_crd_panel_heading">
+                            <div>
+                                <h2>Fleet Status</h2>
+                                <p>Live vehicle allocation</p>
+                            </div>
+                            <button class="o_crd_icon_button" title="Open vehicles" t-on-click="() => this.openModel('car.rental.vehicle')"><i class="fa fa-arrow-up-right"/></button>
+                        </div>
+                        <div class="o_crd_donut_wrap">
+                            <div class="o_crd_donut" t-att-style="'background: ' + fleetGradient">
+                                <div><strong t-esc="state.data.kpis.vehicles"/><span>vehicles</span></div>
+                            </div>
+                            <div class="o_crd_legend">
+                                <button t-on-click="() => this.openModel('car.rental.vehicle', [['state', '=', 'available']])"><i class="o_crd_dot o_crd_dot_available"/>Available <strong t-esc="state.data.fleet.available"/></button>
+                                <button t-on-click="() => this.openModel('car.rental.vehicle', [['state', '=', 'rented']])"><i class="o_crd_dot o_crd_dot_rented"/>Rented <strong t-esc="state.data.fleet.rented"/></button>
+                                <button t-on-click="() => this.openModel('car.rental.vehicle', [['state', '=', 'maintenance']])"><i class="o_crd_dot o_crd_dot_maintenance"/>Maintenance <strong t-esc="state.data.fleet.maintenance"/></button>
+                            </div>
+                        </div>
+                    </article>
+
+                    <article class="o_crd_panel o_crd_operations">
+                        <div class="o_crd_panel_heading"><div><h2>Operations</h2><p>Payment and accessory flow</p></div></div>
+                        <div class="o_crd_operations_list">
+                            <button t-on-click="() => this.openModel('account.move', [['move_type', '=', 'out_invoice'], ['state', '=', 'posted'], ['payment_state', '=', 'paid'], ['car_rental_order_id', '!=', false]])">
+                                <span class="o_crd_operation_icon o_crd_operation_paid"><i class="fa fa-check"/></span><span>Paid Invoices<small>Payments received</small></span><strong t-esc="state.data.payments.paid"/><i class="fa fa-angle-right"/>
+                            </button>
+                            <button t-on-click="() => this.openModel('account.move', [['move_type', '=', 'out_invoice'], ['state', '=', 'posted'], ['payment_state', 'in', ['not_paid', 'partial']], ['car_rental_order_id', '!=', false]])">
+                                <span class="o_crd_operation_icon o_crd_operation_unpaid"><i class="fa fa-exclamation"/></span><span>Open Invoices<small>Payment follow-up</small></span><strong t-esc="state.data.payments.unpaid"/><i class="fa fa-angle-right"/>
+                            </button>
+                            <button t-on-click="() => this.openModel('stock.picking', [['picking_type_code', '=', 'outgoing'], ['state', 'not in', ['done', 'cancel']], ['car_rental_order_id', '!=', false]])">
+                                <span class="o_crd_operation_icon o_crd_operation_out"><i class="fa fa-truck"/></span><span>Pending Delivery<small>Accessories to dispatch</small></span><strong t-esc="state.data.transfers.outgoing_pending"/><i class="fa fa-angle-right"/>
+                            </button>
+                            <button t-on-click="() => this.openModel('stock.picking', [['picking_type_code', '=', 'incoming'], ['state', 'not in', ['done', 'cancel']], ['car_rental_order_id', '!=', false]])">
+                                <span class="o_crd_operation_icon o_crd_operation_in"><i class="fa fa-undo"/></span><span>Pending Return<small>Accessories to receive</small></span><strong t-esc="state.data.transfers.incoming_pending"/><i class="fa fa-angle-right"/>
+                            </button>
+                        </div>
+                    </article>
+                </section>
+
+                <section class="o_crd_attention">
+                    <div class="o_crd_section_heading"><div><p class="o_crd_eyebrow">ACTION CENTER</p><h2>Needs Attention</h2></div></div>
+                    <div class="o_crd_attention_grid">
+                        <article class="o_crd_list_card"><h3><span class="o_crd_alert_dot o_crd_alert_red"/>Overdue Rentals <small t-esc="state.data.alerts.overdue.length"/></h3><t t-if="state.data.alerts.overdue.length"><button t-foreach="state.data.alerts.overdue" t-as="order" t-key="order.id" t-on-click="() => this.openRecord('car.rental.order', order.id)"><span><strong t-esc="order.name"/><small><t t-esc="order.customer"/> · <t t-esc="order.vehicle"/></small></span><time t-esc="order.date"/><i class="fa fa-angle-right"/></button></t><p t-else="" class="o_crd_empty">No overdue rentals.</p></article>
+                        <article class="o_crd_list_card"><h3><span class="o_crd_alert_dot o_crd_alert_amber"/>Open Invoices <small t-esc="state.data.alerts.unpaid.length"/></h3><t t-if="state.data.alerts.unpaid.length"><button t-foreach="state.data.alerts.unpaid" t-as="invoice" t-key="invoice.id" t-on-click="() => this.openRecord('account.move', invoice.id)"><span><strong t-esc="invoice.name"/><small t-esc="invoice.customer"/></span><time t-esc="formatCurrency(invoice.amount)"/><i class="fa fa-angle-right"/></button></t><p t-else="" class="o_crd_empty">No open invoices.</p></article>
+                        <article class="o_crd_list_card"><h3><span class="o_crd_alert_dot o_crd_alert_mint"/>Transfers <small t-esc="state.data.alerts.outgoing.length + state.data.alerts.incoming.length"/></h3><t t-if="state.data.alerts.outgoing.length or state.data.alerts.incoming.length"><button t-foreach="state.data.alerts.outgoing" t-as="picking" t-key="picking.id" t-on-click="() => this.openRecord('stock.picking', picking.id)"><span><strong t-esc="picking.name"/><small>Delivery · <t t-esc="picking.order"/></small></span><i class="fa fa-angle-right"/></button><button t-foreach="state.data.alerts.incoming" t-as="picking" t-key="picking.id" t-on-click="() => this.openRecord('stock.picking', picking.id)"><span><strong t-esc="picking.name"/><small>Return · <t t-esc="picking.order"/></small></span><i class="fa fa-angle-right"/></button></t><p t-else="" class="o_crd_empty">No pending transfers.</p></article>
+                    </div>
+                </section>
+            </t>
+        </main>
+    </t>
+</templates>
