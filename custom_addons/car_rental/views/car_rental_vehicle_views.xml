@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <record id="car_rental_vehicle_action" model="ir.actions.act_window">
-        <field name="name">Mobil</field>
+        <field name="name">Vehicles</field>
         <field name="res_model">car.rental.vehicle</field>
         <field name="view_mode">kanban,list,form</field>
         <field name="domain">[]</field>
@@ -47,7 +47,7 @@
                         </group>
                     </group>
                     <notebook>
-                        <page name="Riwayat Sewa" string="Riwayat Sewa">
+                        <page name="rental_history" string="Rental History">
                             <field name="order_ids">
                                 <list>
                                     <field name="name" />
@@ -74,7 +74,7 @@
                 <filter name="Available" string="Available" domain="[('state', '=', 'available')]" />
                 <filter name="Rented" string="Rented" domain="[('state', '=', 'rented')]" />
                 <group expand="0" string="Group By">
-                    <filter name="gorup_by_category" string="Kategory" context="{'group_by': 'category_id'}" />
+                    <filter name="group_by_category" string="Category" context="{'group_by': 'category_id'}" />
                 </group>
             </search>
         </field>
@@ -102,7 +102,7 @@
                                 <field name="model_name" />
                             </div>
                             <div>
-                                <field name="daily_rate" />/ Hari</div>
+                                <field name="daily_rate" /> / Day</div>
                             <span class="badge">
                                 <field name="state" widget="vehicle_status_badge"/>
                             </span>

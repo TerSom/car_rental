@@ -1,6 +1,6 @@
-from odoo import models, fields, api
+from odoo import models, fields
 
 class ResPartner(models.Model):
     _inherit = 'res.partner'
 
-    driver_license_number = fields.Char(string='Nomor SIM')
+    driver_license_number = fields.Char(string='Driver License Number')

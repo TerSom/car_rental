@@ -8,43 +8,43 @@
     
     <menuitem
         id="car_rental_order_menu"
-        name="Sewa Mobil"
+        name="Rental Orders"
         action="car_rental_order_action"
         parent="car_rental_menu"
         sequence="10"/>
 
     <menuitem
         id="car_rental_vehicle_menu"
-        name="Mobil"
+        name="Vehicles"
         action="car_rental_vehicle_action"
         parent="car_rental_menu"
         sequence="20"/>
-    
+
     <menuitem
         id="car_rental_config_menu"
-        name="Konfigurasi"
+        name="Configuration"
         parent="car_rental_menu"
         sequence="80"/>
     <menuitem
         id="car_rental_category_menu"
-        name="Kategory Mobil"
+        name="Vehicle Categories"
         action="car_rental_category_action"
         parent="car_rental_config_menu"
         sequence="10"/>
     <menuitem
         id="car_rental_feature_menu"
-        name="Fitur Mobil"
+        name="Vehicle Features"
         action="car_rental_feature_action"
         parent="car_rental_config_menu"
         sequence="10"/>
     <menuitem
         id="Report_menu"
-        name="Report"
+        name="Reporting"
         parent="car_rental_menu"
         sequence="90"/>
     <menuitem
         id="car_rental_export_menu"
-        name="Export Excel"
+        name="Export Orders"
         action="action_export_orders_wizard"
         parent="Report_menu"
         sequence="10"/>
