@@ -9,7 +9,7 @@ class CarRentalVehicle(models.Model):
     license_plate = fields.Char(string='License Plate', required=True)
     brand = fields.Char(string='Brand', required=True)
     model_name = fields.Char(string='Model', required=True)
-    category_id = fields.Many2one('car.rental.category', string='Category')
+    category_id = fields.Many2one('car.rental.category', string='Category', ondelete='restrict')
     currency_id = fields.Many2one('res.currency', string='Currency', default=lambda self: self.env.company.currency_id)
     daily_rate = fields.Monetary(string='Daily Rate')
     state = fields.Selection([
