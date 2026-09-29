@@ -58,6 +58,16 @@ class CarRentalOrder(models.Model):
         for order in self:
             if order.vehicle_id.state in ['maintenance','rented']:
                 raise ValidationError('Vehicle is currently under maintenance or rented.')
+    
+    @api.onchange('vehicle_id')
+    def _onchange_vehicle_id(self):
+        if self.vehicle_id and self.vehicle_id.state != 'available':
+            return {
+                'warning': {
+                    'title': 'Perhatian',
+                    'message': f'Mobil {self.vehicle_id.license_plate} sedang tida tersedia (setatus {self.vehicle_id.state})'
+                }
+            }
 
     def action_open_return_wizard(self):
         self.ensure_one()
