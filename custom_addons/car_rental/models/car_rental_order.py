@@ -28,6 +28,11 @@ class CarRentalOrder(models.Model):
         compute='_compute_vehicle_ids',
     )
 
+    _sql_constraints = [
+    ('check_dates','CHECK(date_end > date_start)','End date must be after start date.'),
+    ('name_unique','UNIQUE(name)','nama sudah terdaftar')
+    ]
+
     @api.depends('vehicle_id')
     def _compute_vehicle_ids(self):
         for order in self:
@@ -65,7 +70,7 @@ class CarRentalOrder(models.Model):
             return {
                 'warning': {
                     'title': 'Perhatian',
-                    'message': f'Mobil {self.vehicle_id.license_plate} sedang tida tersedia (setatus {self.vehicle_id.state})'
+                    'message': f'Mobil {self.vehicle_id.license_plate} sedang tidak tersedia (setatus {self.vehicle_id.state})'
                 }
             }
 
