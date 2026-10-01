@@ -24,6 +24,11 @@ class CarRentalVehicle(models.Model):
     feature_ids = fields.Many2many('car.rental.feature', string='Vehicle Features')
     milage = fields.Integer(string='Mileage', required=True, default=0)
 
+    _sql_constraints = [
+        ('license_plate_unique', 'UNIQUE(license_plate)', 'plat nomer sudah terdaftar'),
+        ('daily_rate_positive', 'CHECK(daily_rate >= 0)', 'Tarif hairan tidak boleh negatif')
+    ]
+
     @api.constrains('plate_expiry_date', 'state')
     def _check_expiry_plate(self):
         today = fields.Date.today()

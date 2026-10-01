@@ -3,6 +3,7 @@ import json
 from odoo import http
 from odoo.exceptions import AccessError,UserError,ValidationError
 from odoo.http import Response, request
+from psycopg2 import IntegrityError
 
 WRITABLE_FIELD = [
     'license_plate', 'brand', 'model_name',
@@ -85,8 +86,36 @@ class CarRentalApi(http.Controller):
             return _json_response({'error': str(e)}, status=403)
         except (ValidationError, UserError) as e:
             return _json_response({'error': str(e)}, status=400)
+        except IntegrityError:
+            return _json_response({'error': 'Data duplikat atau melanggar aturan database'}, status=409)
         return _json_response(_serialize_vehicle(vehicle), status=201)
+    
+    # Update
+    @http.route('/api/car_rental/vehicles/<int:vehicle_id>',type='http',auth='user',methods=['PUT','PATCH'], csrf=False)
+    def update_vehicle(self, vehicle_id, **kwargs):
+        vehicle = request.env['car.rental.vehicle'].browse(vehicle_id).exists()
+        if not vehicle:
+            return _json_response({'error': 'Vehicle tidak ditemukan'}, status=404)
 
+        body = _get_json_body()
+        if body is None:
+            return _json_response({'error': 'Body harus berupa JSON object'}, status=400)
+        vals = {k: v for k, v in body.items() if k in WRITABLE_FIELD}
+        if not vals:
+            return _json_response({'error': 'Tidak ada field valid untuk diubah'}, status=400)
+
+        try:
+            with request.env.cr.savepoint():
+                vehicle.write(vals)
+        except AccessError as e:
+            return _json_response({'error': str(e)}, status=403)
+        except (ValidationError, UserError) as e:
+            return _json_response({'error': str(e)}, status=400)
+        except IntegrityError:
+            return _json_response({'error': 'Data duplikat atau melanggar aturan database'}, status=409)
+        return _json_response(_serialize_vehicle(vehicle))
+
+    # Delete
     @http.route('/api/car_rental/vehicles/<int:vehicle_id>',type='http',auth='user',methods=['DELETE'],csrf=False)
     def delete_vehicle(self, vehicle_id, **kwargs):
         vehicle = request.env['car.rental.vehicle'].browse(vehicle_id).exists()

@@ -6,7 +6,7 @@ class CarRentalOrder(models.Model):
     _inherit = 'car.rental.order'
 
     addon_line_ids = fields.One2many('car.rental.order.line', 'order_id', string='Accessories')
-    picking_ids = fields.One2many('stock.picking', 'car_rental_order_id', string='Transfers')
+    picking_ids = fields.One2many('stock.picking', 'car_rental_order_id', string='Stock Transfers')
     picking_count = fields.Integer(string='Transfers', compute='_compute_picking_count')
     has_outgoing_picking = fields.Boolean(string='Accessories Delivered', compute='_compute_picking_status')
     has_incoming_picking = fields.Boolean(string='Accessories Returned', compute='_compute_picking_status')
