@@ -29,8 +29,8 @@ class CarRentalOrder(models.Model):
     )
 
     _sql_constraints = [
-    ('check_dates','CHECK(date_end > date_start)','End date must be after start date.'),
-    ('name_unique','UNIQUE(name)','nama sudah terdaftar')
+        ('check_dates', 'CHECK(date_end > date_start)', 'End date must be after start date.'),
+        ('name_unique', 'UNIQUE(name)', 'Order number must be unique.')
     ]
 
     @api.depends('vehicle_id')
@@ -69,8 +69,8 @@ class CarRentalOrder(models.Model):
         if self.vehicle_id and self.vehicle_id.state != 'available':
             return {
                 'warning': {
-                    'title': 'Perhatian',
-                    'message': f'Mobil {self.vehicle_id.license_plate} sedang tidak tersedia (setatus {self.vehicle_id.state})'
+                    'title': 'Warning',
+                    'message': f'Vehicle {self.vehicle_id.license_plate} is currently not available (status: {self.vehicle_id.state})'
                 }
             }
 

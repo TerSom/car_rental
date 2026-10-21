@@ -25,8 +25,8 @@ class CarRentalVehicle(models.Model):
     milage = fields.Integer(string='Mileage', required=True, default=0)
 
     _sql_constraints = [
-        ('license_plate_unique', 'UNIQUE(license_plate)', 'plat nomer sudah terdaftar'),
-        ('daily_rate_positive', 'CHECK(daily_rate >= 0)', 'Tarif hairan tidak boleh negatif')
+        ('license_plate_unique', 'UNIQUE(license_plate)', 'License plate must be unique.'),
+        ('daily_rate_positive', 'CHECK(daily_rate >= 0)', 'Daily rate cannot be negative.')
     ]
 
     @api.constrains('plate_expiry_date', 'state')
