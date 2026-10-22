@@ -69,3 +69,18 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - Security file stays `security/ir.model.access.csv` (+ `security/car_rental_security.xml` for record rules/groups if needed).
 - XML record IDs: `<model_name>_<suffix>`, e.g. `car_rental_vehicle_view_form`, `car_rental_order_action`, `car_rental_menu_root`.
 - Don't restructure/reformat existing files just to apply these rules — only apply to new files or code actually being modified (avoids noisy diffs).
+
+## Scope Rules (IMPORTANT)
+
+- NEVER modify Odoo core or official modules. These are read-only:
+  - `odoo/` (framework, ORM, HTTP server)
+  - `addons/` (standard upstream modules such as `base`, `account`, `stock`, `sale`)
+  - `odoo-bin`
+- ALL changes go into `custom_addons/` only.
+- To change the behavior of a standard model, view, report, or controller, extend it from a custom module:
+  - Python: `_inherit = 'res.partner'` (or the relevant model)
+  - XML views: inherited view with `<xpath>`
+  - QWeb reports: template inheritance with `t-inherit`
+  - Controllers: subclass the original controller and override the method
+- Reading files in `odoo/` and `addons/` for reference is fine (e.g. to find the right xpath target or field name).
+- If a task seems to require editing core or official files, stop and propose an inheritance-based alternative in `custom_addons/` instead.

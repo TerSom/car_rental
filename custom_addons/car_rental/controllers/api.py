@@ -49,8 +49,8 @@ class CarRentalApi(http.Controller):
             limit = min(int(limit), 100)
             offset = int(offset)
         except ValueError:
-            return _json_response({'error': 'limit dan offset harus angka'}, status=400)
-        
+            return _json_response({'error': 'Limit and offset must be integers'}, status=400)
+
         domain = [('state','=',state)] if state else []
         vehicle = request.env['car.rental.vehicle']
         vehicles = vehicle.search(domain, limit=limit, offset=offset, order='id')
@@ -64,7 +64,7 @@ class CarRentalApi(http.Controller):
     def get_vehicle(self, vehicle_id, **kwargs):
         vehicle = request.env['car.rental.vehicle'].browse(vehicle_id).exists()
         if not vehicle:
-            return _json_response({'error': 'Vehicle tidak ditemukan'}, status=400)
+            return _json_response({'error': 'Vehicle not found'}, status=404)
         return _json_response(_serialize_vehicle(vehicle))
 
     # Create
@@ -72,13 +72,13 @@ class CarRentalApi(http.Controller):
     def create_vehicle(self, **kwargs):
         body = _get_json_body()
         if body is None:
-            return _json_response({'error': 'Body harus berupa JSON object'}, status=400)
+            return _json_response({'error': 'Body must be a JSON object'}, status=400)
 
         vals = {k: v for k, v in body.items() if k in WRITABLE_FIELD}
-        mising = [f for f in REQUIRED_FIELD if not vals.get(f)]
-        if mising:
-            return _json_response({'error':'Field wajib diisi: ' + ','.join(mising)}, status=400)
-        
+        missing = [f for f in REQUIRED_FIELD if not vals.get(f)]
+        if missing:
+            return _json_response({'error': 'Required fields missing: ' + ', '.join(missing)}, status=400)
+
         try:
             with request.env.cr.savepoint():
                 vehicle = request.env['car.rental.vehicle'].create(vals)
@@ -87,22 +87,22 @@ class CarRentalApi(http.Controller):
         except (ValidationError, UserError) as e:
             return _json_response({'error': str(e)}, status=400)
         except IntegrityError:
-            return _json_response({'error': 'Data duplikat atau melanggar aturan database'}, status=409)
+            return _json_response({'error': 'Duplicate data or database constraint violation'}, status=409)
         return _json_response(_serialize_vehicle(vehicle), status=201)
-    
+
     # Update
     @http.route('/api/car_rental/vehicles/<int:vehicle_id>',type='http',auth='user',methods=['PUT','PATCH'], csrf=False)
     def update_vehicle(self, vehicle_id, **kwargs):
         vehicle = request.env['car.rental.vehicle'].browse(vehicle_id).exists()
         if not vehicle:
-            return _json_response({'error': 'Vehicle tidak ditemukan'}, status=404)
+            return _json_response({'error': 'Vehicle not found'}, status=404)
 
         body = _get_json_body()
         if body is None:
-            return _json_response({'error': 'Body harus berupa JSON object'}, status=400)
+            return _json_response({'error': 'Body must be a JSON object'}, status=400)
         vals = {k: v for k, v in body.items() if k in WRITABLE_FIELD}
         if not vals:
-            return _json_response({'error': 'Tidak ada field valid untuk diubah'}, status=400)
+            return _json_response({'error': 'No valid fields to update'}, status=400)
 
         try:
             with request.env.cr.savepoint():
@@ -112,7 +112,7 @@ class CarRentalApi(http.Controller):
         except (ValidationError, UserError) as e:
             return _json_response({'error': str(e)}, status=400)
         except IntegrityError:
-            return _json_response({'error': 'Data duplikat atau melanggar aturan database'}, status=409)
+            return _json_response({'error': 'Duplicate data or database constraint violation'}, status=409)
         return _json_response(_serialize_vehicle(vehicle))
 
     # Delete
@@ -120,7 +120,7 @@ class CarRentalApi(http.Controller):
     def delete_vehicle(self, vehicle_id, **kwargs):
         vehicle = request.env['car.rental.vehicle'].browse(vehicle_id).exists()
         if not vehicle:
-            return _json_response({'error': 'Vehicle tidak ditemukan'}, status=404)
+            return _json_response({'error': 'Vehicle not found'}, status=404)
 
         try:
             with request.env.cr.savepoint():

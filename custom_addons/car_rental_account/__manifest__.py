@@ -2,7 +2,7 @@
     'name': 'Car Rental - Accounting Bridge',
     'version': '1.0',
     'category': 'Services',
-    'summary': 'Integrasi Car Rental dengan Invoicing',
+    'summary': 'Car Rental and Invoicing integration',
     'author': 'Tersom',
     'depends': ['car_rental','account'],
     'data': [
