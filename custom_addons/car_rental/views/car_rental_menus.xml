@@ -4,7 +4,9 @@
     <menuitem
         id="car_rental_menu"
         name="Car Rental"
-        sequence="10"/>
+        sequence="10"
+        web_icon="car_rental,static/description/icon.png"
+        />
     
     <menuitem
         id="car_rental_order_menu"
